@@ -1,0 +1,140 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "./pkg/pb";
+
+service AuthService {
+    rpc Register(RegisterRequest) returns (RegisterResponse){}
+    rpc Login(LoginRequest) returns (LoginResponse){}
+    rpc RefreshLogin(RefreshLoginRequest) returns (RefreshLoginResponse) {}
+    rpc Validate(ValidateRequest) returns(ValidateResponse){}
+    
+    rpc GetPermissions(GetPermissionsRequest) returns (GetPermissionsResponse){}
+    rpc GetRoles(GetRolesRequest) returns(GetRolesResponse){}
+    
+    rpc AddPermission(AddPermissionRequest) returns (AddPermissionResponse){}
+    rpc AddRole(AddRoleRequest) returns(AddRoleResponse){}
+    rpc AddRolePermission(AddRolePermissionRequest) returns (AddRolePermissionResponse) {}
+    rpc AddUserRole(AddUserRoleRequest) returns (AddUserRoleResponse) {}
+    
+    
+}
+
+message RegisterRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message RegisterResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+// Login
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+  
+message LoginResponse {
+    int64 status = 1;
+    string error = 2;
+    map<string, string> tokens = 3;
+    repeated Permission permissions = 4;
+}
+
+message RefreshLoginRequest {
+    string token = 1;
+}
+
+message RefreshLoginResponse {
+    int64 status = 1;
+    string error = 2;
+    map<string, string> tokens = 3;
+    repeated Permission permissions = 4;
+}
+
+message ValidateRequest { string token = 1; }
+
+message ValidateResponse {
+  int64 status = 1;
+  string error = 2;
+  int64 userId = 3;
+  repeated Permission permissions = 4;
+}
+
+// Permissions
+
+message AddPermissionRequest {
+    string permission = 1;
+}
+
+message AddPermissionResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message GetPermissionsRequest {
+    string name = 1;
+}
+
+message GetPermissionsResponse {
+    int64 status = 1;
+    string error = 2;
+    repeated Permission permissions = 3;
+}
+
+message Permission {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+// Roles
+message Role {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+}
+
+message AddRoleRequest {
+    string role = 1;
+}
+
+message AddRoleResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message GetRolesRequest {
+    string name = 1;
+}
+
+message GetRolesResponse {
+    int64 status = 1;
+    string error = 2;
+    repeated Role roles = 3;
+}
+
+message AddRolePermissionRequest {
+    int64 roleId = 1;
+    int64 permissionId = 2;
+}
+
+message AddRolePermissionResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
+message AddUserRoleRequest {
+    int64 userId = 1;
+    int64 roleId = 2;
+}
+
+message AddUserRoleResponse {
+    int64 status = 1;
+    string error = 2;
+}
+
