@@ -47,7 +47,7 @@ func Init(c config.Config) Handler {
 	db.Logger.LogMode(logger.Info)
 
 	// This command is pretty obvious))
-	db.Migrator().DropTable(&models.UserRoles{}, "role_permissions", &models.Role{}, &models.Permission{}, &models.User{}, &models.Order{})
+	// db.Migrator().DropTable(&models.UserRoles{}, "role_permissions", &models.Role{}, &models.Permission{}, &models.User{}, &models.Order{})
 
 	// Setting up custom many2many
 	// Important: must be run before creational Migrations
